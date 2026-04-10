@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ラーメン屋向け AI活用提案書 | かわさき楽AIサポート</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: #f7f9fc;
+      color: #222;
+      line-height: 1.8;
+    }
+
+    /* ── ヘッダー ── */
+    .hero {
+      background: linear-gradient(135deg, #35a0d9 0%, #1a7bb5 100%);
+      color: #fff;
+      padding: 56px 24px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 260px; height: 260px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.07);
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -40px;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+    }
+    .hero-label {
+      display: inline-block;
+      background: #a39463;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      padding: 4px 16px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+    .hero h1 {
+      font-size: clamp(22px, 5vw, 36px);
+      font-weight: 900;
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+    .hero h1 span {
+      color: #ffd96a;
+    }
+    .hero-sub {
+      font-size: 14px;
+      opacity: 0.85;
+      margin-bottom: 0;
+    }
+    .hero-service {
+      margin-top: 28px;
+      font-size: 13px;
+      opacity: 0.7;
+      letter-spacing: 1px;
+    }
+    .hero-service strong {
+      opacity: 1;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    /* ── 共通セクション ── */
+    .section {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 48px 24px;
+    }
+    .section-title {
+      font-size: 20px;
+      font-weight: 900;
+      color: #35a0d9;
+      border-left: 5px solid #a39463;
+      padding-left: 14px;
+      margin-bottom: 28px;
+      line-height: 1.4;
+    }
+
+    /* ── 一言まとめ ── */
+    .summary-box {
+      background: #fff;
+      border: 2px solid #35a0d9;
+      border-radius: 12px;
+      padding: 28px 32px;
+      max-width: 800px;
+      margin: 0 auto -16px;
+      position: relative;
+      top: -24px;
+      box-shadow: 0 4px 20px rgba(53,160,217,0.12);
+    }
+    .summary-box p {
+      font-size: 16px;
+      font-weight: 500;
+      color: #1a1a1a;
+      line-height: 1.9;
+    }
+    .summary-box .highlight {
+      color: #35a0d9;
+      font-weight: 700;
+    }
+    .summary-box .gold {
+      color: #a39463;
+      font-weight: 700;
+    }
+
+    /* ── 困りごと ── */
+    .trouble-section {
+      background: #fff;
+    }
+    .trouble-grid {
+      display: grid;
+      gap: 18px;
+    }
+    .trouble-card {
+      background: #f7f9fc;
+      border-radius: 10px;
+      padding: 22px 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      border-left: 4px solid #35a0d9;
+    }
+    .trouble-icon {
+      font-size: 32px;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .trouble-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 6px;
+    }
+    .trouble-card p {
+      font-size: 14px;
+      color: #555;
+    }
+    .trouble-card .data-badge {
+      display: inline-block;
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      color: #856404;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 4px;
+      margin-top: 8px;
+    }
+
+    /* ── AI提案 ── */
+    .proposal-section {
+      background: #f0f8ff;
+    }
+    .proposal-grid {
+      display: grid;
+      gap: 24px;
+    }
+    .proposal-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      border-top: 4px solid #35a0d9;
+      position: relative;
+    }
+    .proposal-card:nth-child(2) { border-top-color: #a39463; }
+    .proposal-card:nth-child(3) { border-top-color: #2ecc71; }
+    .proposal-num {
+      position: absolute;
+      top: -18px; left: 24px;
+      background: #35a0d9;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 20px;
+    }
+    .proposal-card:nth-child(2) .proposal-num { background: #a39463; }
+    .proposal-card:nth-child(3) .proposal-num { background: #2ecc71; }
+    .proposal-card h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 10px;
+      margin-top: 4px;
+    }
+    .proposal-card p {
+      font-size: 14px;
+      color: #444;
+      margin-bottom: 14px;
+    }
+    .before-after {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .ba-box {
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 13px;
+    }
+    .ba-before {
+      background: #fff0f0;
+      border: 1px solid #ffc9c9;
+    }
+    .ba-before .ba-label { color: #c0392b; font-weight: 700; font-size: 11px; margin-bottom: 4px; }
+    .ba-after {
+      background: #f0fff4;
+      border: 1px solid #b2f0c5;
+    }
+    .ba-after .ba-label { color: #27ae60; font-weight: 700; font-size: 11px; margin-bottom: 4px; }
+    .tools-tag {
+      margin-top: 14px;
+    }
+    .tool-chip {
+      display: inline-block;
+      background: #e8f4fd;
+      color: #35a0d9;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 20px;
+      margin: 3px 3px 0 0;
+      border: 1px solid #b3d9f5;
+    }
+    .tool-chip.free::after {
+      content: '（無料）';
+      font-weight: 400;
+      font-size: 11px;
+    }
+
+    /* ── 導入ステップ ── */
+    .steps-section {
+      background: #fff;
+    }
+    .steps-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .step-item {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      position: relative;
+    }
+    .step-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 23px;
+      top: 52px;
+      height: calc(100% - 8px);
+      width: 2px;
+      background: linear-gradient(to bottom, #35a0d9, #a39463);
+    }
+    .step-num-wrap {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #35a0d9, #1a7bb5);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 10px rgba(53,160,217,0.3);
+      z-index: 1;
+    }
+    .step-item:nth-child(2) .step-num-wrap { background: linear-gradient(135deg, #a39463, #8a7a4f); box-shadow: 0 3px 10px rgba(163,148,99,0.3); }
+    .step-item:nth-child(3) .step-num-wrap { background: linear-gradient(135deg, #2ecc71, #27ae60); box-shadow: 0 3px 10px rgba(46,204,113,0.3); }
+    .step-content {
+      padding: 10px 0 36px;
+    }
+    .step-content h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 6px;
+    }
+    .step-content p {
+      font-size: 14px;
+      color: #555;
+    }
+    .step-content .step-detail {
+      margin-top: 8px;
+      background: #f7f9fc;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #444;
+    }
+
+    /* ── 実績バナー ── */
+    .results-banner {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #fff;
+      padding: 36px 24px;
+      text-align: center;
+    }
+    .results-banner h2 {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #a39463;
+      margin-bottom: 24px;
+    }
+    .results-grid {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .result-item {
+      text-align: center;
+    }
+    .result-num {
+      font-size: 36px;
+      font-weight: 900;
+      color: #35a0d9;
+      line-height: 1;
+    }
+    .result-num span { font-size: 18px; }
+    .result-label {
+      font-size: 12px;
+      color: #aaa;
+      margin-top: 4px;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      background: linear-gradient(135deg, #35a0d9 0%, #1a7bb5 100%);
+      color: #fff;
+      padding: 56px 24px;
+      text-align: center;
+    }
+    .cta-section h2 {
+      font-size: clamp(18px, 4vw, 26px);
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+    .cta-section p {
+      font-size: 15px;
+      opacity: 0.9;
+      margin-bottom: 32px;
+      line-height: 1.8;
+    }
+    .cta-badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+    .cta-badge {
+      background: rgba(255,255,255,0.15);
+      border: 1.5px solid rgba(255,255,255,0.5);
+      border-radius: 30px;
+      padding: 6px 20px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .cta-btn {
+      display: inline-block;
+      background: #fff;
+      color: #1a7bb5;
+      font-size: 16px;
+      font-weight: 900;
+      padding: 16px 48px;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      transition: transform 0.2s, box-shadow 0.2s;
+      letter-spacing: 0.5px;
+    }
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 28px rgba(0,0,0,0.28);
+    }
+    .cta-url {
+      margin-top: 16px;
+      font-size: 13px;
+      opacity: 0.7;
+    }
+
+    /* ── フッター ── */
+    footer {
+      background: #1a1a1a;
+      color: #777;
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+    }
+    footer strong { color: #aaa; }
+
+    /* ── レスポンシブ ── */
+    @media (max-width: 560px) {
+      .before-after { grid-template-columns: 1fr; }
+      .results-grid { gap: 24px; }
+      .summary-box { padding: 20px; }
+      .step-item:not(:last-child)::after { left: 23px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ① ヘッダー -->
+<header class="hero">
+  <div class="hero-label">AI活用 提案書</div>
+  <h1>ラーメン屋さんの<br /><span>「忙しい」を、AIで整える。</span></h1>
+  <p class="hero-sub">仕込み・接客・調理に集中できる環境を、無料ツールで一緒につくります</p>
+  <p class="hero-service">提案：<strong>かわさき楽AIサポート</strong>（株式会社スマイルファクトリー）</p>
+</header>
+
+<!-- ② 一言まとめ -->
+<div style="max-width:800px; margin:0 auto; padding:0 24px;">
+  <div class="summary-box">
+    <p>
+      ラーメン屋さんは、<span class="highlight">開業後3年以内に約7割が廃業する</span>といわれる、日本一競争が厳しい業種のひとつです。<br />
+      売上を伸ばすために必要な「SNS発信・発注管理・リピーター施策」——でも、<span class="gold">仕込みと調理で手がいっぱい</span>で後回しになっていませんか？<br />
+      <strong>ChatGPT・Gemini などの無料AIツール</strong>を使えば、そのしわ寄せを大幅に減らせます。難しい知識は不要。一緒に覚えましょう。
+    </p>
+  </div>
+</div>
+
+<!-- ③ よくある困りごと -->
+<section class="trouble-section" style="padding-top:40px;">
+  <div class="section" style="padding-top:32px;">
+    <h2 class="section-title">😓 ラーメン屋さんの「あるあるお困りごと」</h2>
+    <div class="trouble-grid">
+
+      <div class="trouble-card">
+        <div class="trouble-icon">🍜</div>
+        <div>
+          <h3>仕込み・調理で一日が終わってしまう</h3>
+          <p>
+            豚骨スープは8時間以上の煮込みが必要なことも。開店準備から閉店後の片付けまで、
+            経営者が厨房を離れられない状態が続いています。
+            SNS投稿やリピーター施策など「売上につながる仕事」が後回しになりがちです。
+          </p>
+          <span class="data-badge">📊 店主が厨房につきっきりで顧客傾向の把握が困難（業界調査）</span>
+        </div>
+      </div>
+
+      <div class="trouble-card">
+        <div class="trouble-icon">📦</div>
+        <div>
+          <h3>食材の発注・在庫管理に毎日1時間以上かかる</h3>
+          <p>
+            天候や曜日・イベントによって仕込み量の読みが難しく、食材ロスや欠品が発生しがち。
+            「どのくらい仕入れればいいか」の判断を、経験と勘だけで行うのには限界があります。
+          </p>
+          <span class="data-badge">📊 AI発注導入で食材廃棄25%削減・欠品90%減の事例あり</span>
+        </div>
+      </div>
+
+      <div class="trouble-card">
+        <div class="trouble-icon">📱</div>
+        <div>
+          <h3>SNSやGoogleマップの更新が追いつかない</h3>
+          <p>
+            「インスタ映え」な写真の文章を考えたり、Googleビジネスプロフィールへの返信をしたりと、
+            集客に必要なデジタル対応が「やらなきゃとわかっているけど後回し」になっているお店が多いです。
+          </p>
+          <span class="data-badge">📊 MEO対策・SNS活用が廃業率を下げる主要な打ち手のひとつ</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ④ AI活用の提案 -->
+<section class="proposal-section">
+  <div class="section">
+    <h2 class="section-title">🤖 AIでこう変わります！具体的な提案3つ</h2>
+    <div class="proposal-grid">
+
+      <!-- 提案1 -->
+      <div class="proposal-card">
+        <div class="proposal-num">提案 1</div>
+        <h3>SNS投稿文・メニュー説明を「AIに下書きさせる」</h3>
+        <p>
+          「今日のこだわり食材」「新メニューのポイント」をひと言メモしてChatGPTに貼るだけ。
+          インスタグラム・X（Twitter）向けの投稿文やGoogleマップの返信文を30秒で下書き。
+          あとは店主がひと手間加えるだけで完成します。
+        </p>
+        <div class="before-after">
+          <div class="ba-box ba-before">
+            <div class="ba-label">😩 BEFORE</div>
+            投稿文を考えるのに30〜60分。結局更新できずじまい…
+          </div>
+          <div class="ba-box ba-after">
+            <div class="ba-label">😊 AFTER</div>
+            メモをAIに貼るだけ。投稿文が5分以内に完成！
+          </div>
+        </div>
+        <div class="tools-tag">
+          <span class="tool-chip free">ChatGPT</span>
+          <span class="tool-chip free">Gemini</span>
+          <span class="tool-chip free">Claude</span>
+        </div>
+      </div>
+
+      <!-- 提案2 -->
+      <div class="proposal-card">
+        <div class="proposal-num">提案 2</div>
+        <h3>「発注・仕込み量の読み」をAIでサポート</h3>
+        <p>
+          過去の売上メモ・天気予報・近くのイベント情報をChatGPTに入力すると、
+          「今週の仕込み量の目安」「食材ロスを減らすためのヒント」を提案してくれます。
+          大手チェーンでは食材廃棄25%削減・欠品90%減を実現した活用法を、個人店向けにかんたんに応用します。
+        </p>
+        <div class="before-after">
+          <div class="ba-box ba-before">
+            <div class="ba-label">😩 BEFORE</div>
+            感と経験だけで発注→食材ロス・欠品が毎週発生
+          </div>
+          <div class="ba-box ba-after">
+            <div class="ba-label">😊 AFTER</div>
+            データをAIに渡して「今週の目安」をすぐ確認
+          </div>
+        </div>
+        <div class="tools-tag">
+          <span class="tool-chip free">ChatGPT</span>
+          <span class="tool-chip free">Googleスプレッドシート</span>
+        </div>
+      </div>
+
+      <!-- 提案3 -->
+      <div class="proposal-card">
+        <div class="proposal-num">提案 3</div>
+        <h3>リピーター向けLINE・クーポン文面をAIで量産</h3>
+        <p>
+          「〇〇のお客様への来月のクーポンメッセージを5パターン作って」とAIに頼むだけ。
+          季節メニューの告知・常連向けの感謝メッセージ・新メニュー案内など、
+          1回の入力で複数パターンのテキストが完成。選んで送るだけで、リピーター施策がぐっと楽になります。
+        </p>
+        <div class="before-after">
+          <div class="ba-box ba-before">
+            <div class="ba-label">😩 BEFORE</div>
+            クーポンや案内文を考えるのが面倒で、LINE配信が月1回未満
+          </div>
+          <div class="ba-box ba-after">
+            <div class="ba-label">😊 AFTER</div>
+            週1配信でもAIが文面を用意。リピーター来店率UP！
+          </div>
+        </div>
+        <div class="tools-tag">
+          <span class="tool-chip free">ChatGPT</span>
+          <span class="tool-chip free">LINE公式アカウント</span>
+          <span class="tool-chip free">Gemini</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 実績バナー -->
+<div class="results-banner">
+  <h2>▶ AI活用でこんな変化が出ています</h2>
+  <div class="results-grid">
+    <div class="result-item">
+      <div class="result-num">25<span>%</span></div>
+      <div class="result-label">食材廃棄の削減</div>
+    </div>
+    <div class="result-item">
+      <div class="result-num">90<span>%</span></div>
+      <div class="result-label">欠品による機会損失の減少</div>
+    </div>
+    <div class="result-item">
+      <div class="result-num">30<span>分→</span>5<span>分</span></div>
+      <div class="result-label">SNS投稿作成の時間</div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑤ 導入ステップ -->
+<section class="steps-section">
+  <div class="section">
+    <h2 class="section-title">🚀 はじめるのは3ステップだけ</h2>
+    <div class="steps-flow">
+
+      <div class="step-item">
+        <div class="step-num-wrap">1</div>
+        <div class="step-content">
+          <h3>まず「無料相談」でお困りごとを整理する</h3>
+          <p>「何から始めればいいかわからない」が一番多いお声です。お店の状況をヒアリングして、
+          どこにAIを使うと一番ラクになるかを一緒に考えます。訪問対応（川崎市内）もOK。</p>
+          <div class="step-detail">📍 初回相談は完全無料・川崎市内なら訪問でご対応します</div>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num-wrap">2</div>
+        <div class="step-content">
+          <h3>実際に使いながら「一緒に覚える」</h3>
+          <p>マニュアルを渡して終わり、ではありません。ChatGPTやGeminiを実際にお店のスマホで操作しながら、
+          「こうやって使うんだ！」を体感してもらいます。AIが苦手な方でも大丈夫です。</p>
+          <div class="step-detail">🛠 使うのは無料ツールだけ。追加費用は発生しません</div>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num-wrap">3</div>
+        <div class="step-content">
+          <h3>業務改善の効果が出たら「成果報酬」のみ</h3>
+          <p>削減できた工数（時間）× 2,000円が報酬の基本。上限は月3万円。
+          効果が出なければ費用は一切発生しません。リスクなく、安心してお試しいただけます。</p>
+          <div class="step-detail">💡 成果報酬型（上限：月3万円）／ 成果が出なければ費用ゼロ</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ⑥ CTA -->
+<section class="cta-section">
+  <h2>まずは「どこから始めればいい？」を<br />一緒に考えましょう</h2>
+  <p>
+    川崎エリアのラーメン屋さんへ、伴走型でサポートします。<br />
+    AIが苦手でも大丈夫。使えるようになるまでご一緒します。
+  </p>
+  <div class="cta-badges">
+    <span class="cta-badge">✅ 初回相談 無料</span>
+    <span class="cta-badge">✅ 訪問対応OK（川崎市内）</span>
+    <span class="cta-badge">✅ 成果報酬型だから安心</span>
+    <span class="cta-badge">✅ 使うのは無料ツールだけ</span>
+  </div>
+  <a class="cta-btn" href="https://www.smilefactory-rakuai.com/" target="_blank" rel="noopener">
+    📩 無料相談はこちら
+  </a>
+  <p class="cta-url">https://www.smilefactory-rakuai.com/</p>
+</section>
+
+<footer>
+  <strong>かわさき楽AIサポート</strong>（株式会社スマイルファクトリー）<br />
+  〒213-0012 川崎市高津区久本1-6-8 3号室　｜　代表：内貴 志<br />
+  AIを楽に楽しく活用できる状態をつくる
+</footer>
+
+</body>
+</html>
