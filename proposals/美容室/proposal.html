@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>美容室向け AI活用提案書 | かわさき楽AIサポート</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: #f5f7fa;
+      color: #000000;
+      line-height: 1.7;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      background: linear-gradient(135deg, #000000 0%, #1a1a2e 60%, #16213e 100%);
+      color: #ffffff;
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(53,160,217,0.18) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: -60px;
+      width: 240px; height: 240px;
+      background: radial-gradient(circle, rgba(163,148,99,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 32px 44px;
+      position: relative;
+      z-index: 1;
+    }
+    .header-badge {
+      display: inline-block;
+      background: linear-gradient(90deg, #35a0d9, #a39463);
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+    }
+    .header-service {
+      font-size: 0.9rem;
+      color: #a39463;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      margin-bottom: 10px;
+    }
+    .header-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+    .header-title span {
+      color: #35a0d9;
+    }
+    .header-subtitle {
+      font-size: 1rem;
+      color: #c8d8e8;
+      max-width: 560px;
+    }
+    .header-date {
+      margin-top: 20px;
+      font-size: 0.82rem;
+      color: #88a0b8;
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 24px 60px;
+    }
+
+    /* ===== SECTION COMMON ===== */
+    section {
+      margin-bottom: 40px;
+    }
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #35a0d9;
+      margin-bottom: 10px;
+    }
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 24px; height: 2px;
+      background: #35a0d9;
+    }
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #000000;
+      margin-bottom: 20px;
+      line-height: 1.3;
+    }
+
+    /* ===== ONE-LINER SUMMARY ===== */
+    .summary-card {
+      background: linear-gradient(135deg, #000000, #1c2a38);
+      border-radius: 16px;
+      padding: 36px 40px;
+      color: #ffffff;
+      position: relative;
+      overflow: hidden;
+    }
+    .summary-card::after {
+      content: '✂';
+      position: absolute;
+      right: 30px; bottom: -10px;
+      font-size: 7rem;
+      opacity: 0.06;
+      line-height: 1;
+    }
+    .summary-card .summary-head {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: #a39463;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+    .summary-card .summary-text {
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      font-weight: 700;
+      line-height: 1.6;
+      color: #ffffff;
+    }
+    .summary-card .summary-text em {
+      color: #35a0d9;
+      font-style: normal;
+    }
+
+    /* ===== PROBLEM CARDS ===== */
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .problem-card {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 28px 24px;
+      border-top: 4px solid #35a0d9;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .problem-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+    }
+    .problem-number {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: #35a0d9;
+      margin-bottom: 10px;
+    }
+    .problem-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .problem-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #000000;
+    }
+    .problem-desc {
+      font-size: 0.88rem;
+      color: #555;
+      line-height: 1.7;
+    }
+    .problem-voice {
+      margin-top: 14px;
+      background: #f0f7fd;
+      border-left: 3px solid #35a0d9;
+      padding: 10px 14px;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.84rem;
+      color: #2a6a90;
+      font-style: italic;
+    }
+
+    /* ===== PROPOSAL CARDS ===== */
+    .proposal-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .proposal-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 28px 32px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      border-left: 6px solid #35a0d9;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .proposal-card:nth-child(2) { border-left-color: #a39463; }
+    .proposal-card:nth-child(3) { border-left-color: #000000; }
+    .proposal-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+    }
+    .proposal-num {
+      flex-shrink: 0;
+      width: 52px; height: 52px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #35a0d9, #1a78ad);
+      color: #ffffff;
+      font-size: 1.3rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .proposal-card:nth-child(2) .proposal-num {
+      background: linear-gradient(135deg, #a39463, #7a6e44);
+    }
+    .proposal-card:nth-child(3) .proposal-num {
+      background: linear-gradient(135deg, #333333, #000000);
+    }
+    .proposal-body { flex: 1; }
+    .proposal-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #35a0d9;
+      background: #e8f4fc;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    .proposal-card:nth-child(2) .proposal-tag {
+      color: #a39463;
+      background: #f7f3e8;
+    }
+    .proposal-card:nth-child(3) .proposal-tag {
+      color: #333333;
+      background: #f0f0f0;
+    }
+    .proposal-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #000000;
+      margin-bottom: 10px;
+    }
+    .proposal-desc {
+      font-size: 0.88rem;
+      color: #555;
+      line-height: 1.75;
+      margin-bottom: 14px;
+    }
+    .tool-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tool-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #35a0d9;
+      background: #e8f4fc;
+      border: 1px solid #b8daf5;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .tool-chip.free::after {
+      content: '無料';
+      font-size: 0.65rem;
+      background: #35a0d9;
+      color: #fff;
+      padding: 1px 5px;
+      border-radius: 10px;
+    }
+    .tool-chip.low::after {
+      content: '低コスト';
+      font-size: 0.65rem;
+      background: #a39463;
+      color: #fff;
+      padding: 1px 5px;
+      border-radius: 10px;
+    }
+    .proposal-effect {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: #2a7a4a;
+      font-weight: 700;
+      background: #eaf7f0;
+      padding: 10px 16px;
+      border-radius: 10px;
+    }
+    .proposal-effect::before {
+      content: '✓';
+      font-size: 1rem;
+    }
+
+    /* ===== STEPS ===== */
+    .steps-wrap {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 36px 40px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      position: relative;
+      margin-top: 8px;
+    }
+    .steps-grid::before {
+      content: '';
+      position: absolute;
+      top: 28px; left: calc(16.67% + 10px); right: calc(16.67% + 10px);
+      height: 3px;
+      background: linear-gradient(90deg, #35a0d9, #a39463);
+      z-index: 0;
+    }
+    .step-item {
+      text-align: center;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+    .step-circle {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #ffffff;
+      position: relative;
+    }
+    .step-item:nth-child(1) .step-circle { background: #35a0d9; }
+    .step-item:nth-child(2) .step-circle { background: linear-gradient(135deg, #35a0d9, #a39463); }
+    .step-item:nth-child(3) .step-circle { background: #a39463; }
+    .step-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: #35a0d9;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+    .step-item:nth-child(2) .step-label { color: #7a8a6a; }
+    .step-item:nth-child(3) .step-label { color: #a39463; }
+    .step-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #000000;
+      margin-bottom: 8px;
+    }
+    .step-desc {
+      font-size: 0.82rem;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    /* ===== CTA ===== */
+    .cta-section {
+      background: linear-gradient(135deg, #000000 0%, #1c2a38 50%, #162030 100%);
+      border-radius: 20px;
+      padding: 48px 40px;
+      text-align: center;
+      color: #ffffff;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 220px; height: 220px;
+      background: radial-gradient(circle, rgba(53,160,217,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .cta-section::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: -60px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(163,148,99,0.18) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .cta-inner { position: relative; z-index: 1; }
+    .cta-badge {
+      display: inline-block;
+      background: rgba(53,160,217,0.15);
+      border: 1px solid rgba(53,160,217,0.4);
+      color: #35a0d9;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      padding: 5px 16px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+    }
+    .cta-title {
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      font-weight: 900;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    .cta-title span { color: #35a0d9; }
+    .cta-desc {
+      font-size: 0.92rem;
+      color: #a8c0d8;
+      max-width: 500px;
+      margin: 0 auto 28px;
+      line-height: 1.7;
+    }
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(90deg, #35a0d9, #1a78ad);
+      color: #ffffff;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 14px 32px;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(53,160,217,0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(53,160,217,0.5);
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: #a39463;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 14px 32px;
+      border-radius: 50px;
+      text-decoration: none;
+      border: 2px solid #a39463;
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-secondary:hover {
+      background: #a39463;
+      color: #ffffff;
+    }
+    .cta-info {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .cta-info-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: #889aaa;
+    }
+    .cta-info-item::before {
+      content: '✓';
+      color: #35a0d9;
+      font-weight: 700;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: #000000;
+      color: #666;
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 0.78rem;
+    }
+    footer a { color: #35a0d9; text-decoration: none; }
+    .footer-brand {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+    .footer-brand span { color: #a39463; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 640px) {
+      .header-inner { padding: 36px 20px 32px; }
+      main { padding: 28px 16px 48px; }
+      .summary-card { padding: 26px 24px; }
+      .proposal-card { flex-direction: column; gap: 16px; }
+      .steps-grid { grid-template-columns: 1fr; gap: 24px; }
+      .steps-grid::before { display: none; }
+      .steps-wrap { padding: 28px 24px; }
+      .cta-section { padding: 36px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="header-inner">
+    <div class="header-badge">AI活用提案書 2026</div>
+    <div class="header-service">かわさき楽AIサポート</div>
+    <h1 class="header-title">
+      <span>美容室</span>のための<br>AI活用提案書
+    </h1>
+    <p class="header-subtitle">
+      施術に集中できる環境をつくる。<br>
+      予約・集客・SNS運用をAIで自動化し、お客様との時間を最大化する。
+    </p>
+    <p class="header-date">作成日：2026年4月10日　　担当：かわさき楽AIサポート</p>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===== SECTION 1: 一言まとめ ===== -->
+  <section>
+    <div class="section-label">Point</div>
+    <h2 class="section-title">AIで解決できる最大の課題</h2>
+    <div class="summary-card">
+      <div class="summary-head">💡 One Point Summary</div>
+      <p class="summary-text">
+        美容室が抱える<em>「予約電話・SNS運用・顧客管理」</em>の3大業務負担を、<br>
+        AIツールで自動化・省力化することで、<br>
+        美容師本来の仕事である<em>「施術と接客」</em>に集中できる環境を実現します。
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 2: よくある困りごと ===== -->
+  <section>
+    <div class="section-label">Problem</div>
+    <h2 class="section-title">美容室のよくある困りごと 3 つ</h2>
+    <div class="problem-grid">
+
+      <div class="problem-card">
+        <div class="problem-number">PROBLEM 01</div>
+        <span class="problem-icon">📞</span>
+        <div class="problem-title">施術中に電話が鳴り、対応で手が止まる</div>
+        <p class="problem-desc">
+          カットやカラーの最中に予約電話が入り、集中力が途切れてしまう。
+          営業時間外は予約を取りこぼし、機会損失になっている。
+        </p>
+        <div class="problem-voice">「忙しい時間帯に限って電話が多くて、お客様にも失礼で…」</div>
+      </div>
+
+      <div class="problem-card">
+        <div class="problem-number">PROBLEM 02</div>
+        <span class="problem-icon">📱</span>
+        <div class="problem-title">SNS投稿やDMの文章作成に毎回時間がかかる</div>
+        <p class="problem-desc">
+          InstagramやLINEへの投稿文を考えるのが大変で後回しに。
+          ハッシュタグ選定やキャンペーン告知文の作成も手が回らない。
+        </p>
+        <div class="problem-voice">「ネタは浮かぶけど、毎回文章を書くのが苦手で…」</div>
+      </div>
+
+      <div class="problem-card">
+        <div class="problem-number">PROBLEM 03</div>
+        <span class="problem-icon">📋</span>
+        <div class="problem-title">顧客カルテが紙のまま、再来店時の提案がスムーズにいかない</div>
+        <p class="problem-desc">
+          施術履歴・使用薬剤・好みが紙やメモで管理されていて、
+          スタッフ間での共有や再来店時のパーソナル提案が難しい。
+        </p>
+        <div class="problem-voice">「前回の薬剤を探すのに時間がかかって、お客様をお待たせしてしまう」</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== SECTION 3: AI活用提案 ===== -->
+  <section>
+    <div class="section-label">Solution</div>
+    <h2 class="section-title">AI活用の提案 3 つ</h2>
+    <div class="proposal-list">
+
+      <!-- 提案1 -->
+      <div class="proposal-card">
+        <div class="proposal-num">1</div>
+        <div class="proposal-body">
+          <div class="proposal-tag">予約・問い合わせ対応</div>
+          <div class="proposal-title">LINEチャットボットで 24 時間自動予約受付</div>
+          <p class="proposal-desc">
+            LINE公式アカウントにAIチャットボットを連携させることで、営業時間外でも自動で予約を受け付けます。
+            よくある質問（料金・駐車場・メニュー内容など）への自動回答も設定でき、
+            電話対応の負担を大幅に削減できます。施術に集中しながら、予約の取りこぼしゼロを目指せます。
+          </p>
+          <div class="tool-chips">
+            <span class="tool-chip free">LINE公式アカウント</span>
+            <span class="tool-chip low">Googleフォーム連携</span>
+            <span class="tool-chip low">Reservia / SALON BOARD</span>
+          </div>
+          <div class="proposal-effect">電話対応時間を削減し、施術への集中度が大幅アップ</div>
+        </div>
+      </div>
+
+      <!-- 提案2 -->
+      <div class="proposal-card">
+        <div class="proposal-num">2</div>
+        <div class="proposal-body">
+          <div class="proposal-tag">SNS・集客コンテンツ作成</div>
+          <div class="proposal-title">ChatGPT で SNS 投稿文・キャンペーン文を一瞬で作成</div>
+          <p class="proposal-desc">
+            「梅雨時期の髪の広がり対策」「30代女性向けトリートメントキャンペーン」など、
+            簡単な条件を入力するだけでInstagram投稿文・ハッシュタグ・LINEメッセージを自動生成。
+            さらに生成AIでヘアスタイル画像を作り、ヘアカタログやSNSコンテンツとして活用することで
+            集客力・ブランドイメージが向上します。
+          </p>
+          <div class="tool-chips">
+            <span class="tool-chip free">ChatGPT（無料プラン）</span>
+            <span class="tool-chip free">Canva（画像作成）</span>
+            <span class="tool-chip low">Adobe Firefly</span>
+          </div>
+          <div class="proposal-effect">SNS運用にかかる時間を最大 70% 削減し、投稿頻度アップ</div>
+        </div>
+      </div>
+
+      <!-- 提案3 -->
+      <div class="proposal-card">
+        <div class="proposal-num">3</div>
+        <div class="proposal-body">
+          <div class="proposal-tag">顧客管理・リピート促進</div>
+          <div class="proposal-title">AI 顧客分析でリピート率アップ・パーソナル提案を実現</div>
+          <p class="proposal-desc">
+            来店履歴・施術内容・使用薬剤・お客様の好みをクラウドで一元管理し、
+            AIが「次回来店のベストタイミング」「おすすめメニュー」を自動で分析・提案。
+            再来店が見込まれるお客様に自動でLINEメッセージを送る仕組みを作ることで、
+            リピート率の向上と顧客ロイヤルティの強化を実現します。
+          </p>
+          <div class="tool-chips">
+            <span class="tool-chip low">サロンアンサー / Square</span>
+            <span class="tool-chip free">LINE公式アカウント</span>
+            <span class="tool-chip free">Googleスプレッドシート＋AI</span>
+          </div>
+          <div class="proposal-effect">リピート率向上とスタッフ間の情報共有が劇的にスムーズに</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== SECTION 4: 導入ステップ ===== -->
+  <section>
+    <div class="section-label">Step</div>
+    <h2 class="section-title">3 ステップで始める AI 導入</h2>
+    <div class="steps-wrap">
+      <div class="steps-grid">
+
+        <div class="step-item">
+          <div class="step-circle">1</div>
+          <div class="step-label">Step 01</div>
+          <div class="step-title">無料ツールを試す</div>
+          <p class="step-desc">
+            ChatGPTの無料プランでSNS投稿文を1本作ってみる。
+            まず「使えそう！」という体験から始めましょう。
+            ITが苦手でも大丈夫、設定不要ですぐ使えます。
+          </p>
+        </div>
+
+        <div class="step-item">
+          <div class="step-circle">2</div>
+          <div class="step-label">Step 02</div>
+          <div class="step-title">予約・顧客管理をデジタル化</div>
+          <p class="step-desc">
+            LINE公式アカウントを開設し、オンライン予約導線を整備。
+            既存の顧客カルテを少しずつデジタルに移行し、
+            スタッフ間でのスムーズな情報共有を実現します。
+          </p>
+        </div>
+
+        <div class="step-item">
+          <div class="step-circle">3</div>
+          <div class="step-label">Step 03</div>
+          <div class="step-title">自動化で売上アップへ</div>
+          <p class="step-desc">
+            顧客データをもとに自動リマインド・パーソナル提案を設定。
+            データに基づいた経営判断ができるようになり、
+            リピート率と客単価の向上を目指します。
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 5: CTA ===== -->
+  <section>
+    <div class="cta-section">
+      <div class="cta-inner">
+        <div class="cta-badge">🎉 まずは無料相談から</div>
+        <h2 class="cta-title">
+          あなたの美容室に合った<br>
+          <span>AI活用プラン</span>を一緒に考えます
+        </h2>
+        <p class="cta-desc">
+          「どこから始めればいいかわからない」「ツールの使い方を教えてほしい」
+          そんな素朴な疑問でも大歓迎です。かわさき楽AIサポートが
+          丁寧にサポートします。まずはお気軽にご相談ください。
+        </p>
+        <div class="cta-buttons">
+          <a href="mailto:info@smilefactory-rakuai.com" class="btn-primary">
+            ✉ 無料相談を申し込む
+          </a>
+          <a href="https://lin.ee/smilefactory-rakuai" class="btn-secondary">
+            💬 LINE で相談する
+          </a>
+        </div>
+        <div class="cta-info">
+          <div class="cta-info-item">相談無料・見積もり無料</div>
+          <div class="cta-info-item">川崎市内の事業者優先対応</div>
+          <div class="cta-info-item">導入後サポートも充実</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-brand">かわさき<span>楽AI</span>サポート</div>
+  <p>〒210-XXXX 神奈川県川崎市　　TEL: 044-XXX-XXXX　　
+    <a href="mailto:info@smilefactory-rakuai.com">info@smilefactory-rakuai.com</a>
+  </p>
+  <p style="margin-top:8px;">© 2026 かわさき楽AIサポート. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
